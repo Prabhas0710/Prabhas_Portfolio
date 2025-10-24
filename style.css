@@ -229,10 +229,30 @@ body {
     justify-content: center;
     perspective: 1000px;
     z-index: 2;
-    margin: 0 auto;
+    margin: 0 auto 80px auto;
 }
 
 /* Brain canvas removed - using video background only */
+
+/* Background Text */
+.background-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 180px;
+    font-weight: 900;
+    letter-spacing: 20px;
+    color: transparent;
+    -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.3);
+    text-stroke: 2.5px rgba(255, 255, 255, 0.3);
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    opacity: 0.5;
+}
 
 .name-3d {
     font-family: 'Orbitron', sans-serif;
@@ -274,14 +294,17 @@ body {
     font-size: 28px;
     color: var(--text-secondary);
     margin-bottom: 20px;
+    margin-top: 180px;
     min-height: 40px;
     font-weight: 300;
     letter-spacing: 2px;
+    display: none;
 }
 
 .typing-text {
     color: #ffffff;
     font-weight: 700;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .cursor {
@@ -299,7 +322,7 @@ body {
     gap: 20px;
     justify-content: center;
     margin-bottom: 40px;
-    margin-top: 80px;
+    margin-top: 150px;
     flex-wrap: wrap;
     position: relative;
     z-index: 3;
@@ -357,7 +380,7 @@ body {
     display: flex;
     gap: 20px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 50px;
     position: relative;
     z-index: 3;
 }
@@ -441,6 +464,29 @@ section {
     position: relative;
 }
 
+.about-role-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
+    text-stroke: 1.5px rgba(255, 255, 255, 0.8);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+    margin: 0 0 30px 0;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.about-visual.is-visible .about-role-title {
+    animation: fadeInDown 0.8s ease-out 1s forwards;
+}
+
 .about-content {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -500,6 +546,7 @@ section {
 
 .about-visual {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -510,6 +557,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .profile-image {
@@ -525,10 +573,16 @@ section {
         inset 0 0 20px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(139, 0, 0, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: scale(0.8);
 }
 
-.profile-image:hover {
-    transform: translateY(-5px);
+.profile-image-container.is-visible .profile-image {
+    animation: fadeInScale 1s ease-out forwards;
+}
+
+.profile-image-container.is-visible .profile-image:hover {
+    transform: scale(1.05) translateY(-5px);
     box-shadow: 
         0 0 0 1px rgba(0, 0, 0, 1),
         0 6px 12px rgba(0, 0, 0, 0.9),
@@ -1082,18 +1136,26 @@ section {
 }
 
 .contact-content {
-    max-width: 900px;
-    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.contact-left {
+    flex: 1;
+}
+
+.contact-right {
+    flex: 1;
 }
 
 .contact-text {
-    text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 .contact-text h3 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 36px;
+    font-size: 32px;
     margin-bottom: 20px;
     background: var(--gradient-2);
     -webkit-background-clip: text;
@@ -1102,51 +1164,50 @@ section {
 }
 
 .contact-text p {
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-secondary);
     line-height: 1.8;
 }
 
-.contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-}
-
-.contact-item {
+.contact-info-row {
     display: flex;
-    gap: 20px;
-    padding: 25px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(139, 0, 0, 0.3);
-    border-radius: 15px;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
+    flex-direction: column;
+    gap: 15px;
 }
 
-.contact-item:hover {
-    background: rgba(255, 69, 0, 0.05);
+.contact-item-small {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.contact-item-small:hover {
+    background: rgba(139, 0, 0, 0.1);
     border-color: var(--primary-color);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 69, 0, 0.2);
+    transform: translateX(5px);
 }
 
 .contact-icon {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background: var(--gradient-2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
     flex-shrink: 0;
 }
 
 .contact-details h4 {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--text-secondary);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -1155,11 +1216,85 @@ section {
     color: var(--text-primary);
     text-decoration: none;
     transition: var(--transition);
-    word-break: break-all;
+    font-size: 14px;
 }
 
 .contact-details a:hover {
     color: var(--primary-color);
+}
+
+/* Contact Form */
+.contact-form-card {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(139, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 35px 40px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input,
+.form-group textarea {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 15px 20px;
+    color: var(--text-primary);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    transition: var(--transition);
+    outline: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-secondary);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    background: rgba(139, 0, 0, 0.05);
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn-send {
+    background: var(--gradient-2);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 5px 20px rgba(139, 0, 0, 0.4);
+}
+
+.btn-send:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.6);
 }
 
 /* =====================
@@ -1186,6 +1321,11 @@ section {
    Responsive Design
    ===================== */
 @media (max-width: 968px) {
+    .background-text {
+        font-size: 120px;
+        letter-spacing: 15px;
+    }
+    
     .hamburger {
         display: flex;
     }
@@ -1221,6 +1361,7 @@ section {
 
     .name-container {
         height: 100px;
+        margin-bottom: 60px;
     }
 
     #brainCanvas {
@@ -1236,10 +1377,21 @@ section {
 
     .hero-subtitle {
         font-size: 20px;
+        margin-top: 120px;
     }
 
     .section-title {
         font-size: 36px;
+    }
+
+    .about-role-title {
+        font-size: 28px;
+        -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.8);
+        margin-bottom: 20px;
+    }
+    
+    .about-visual.is-visible .about-role-title {
+        animation: fadeInDown 0.8s ease-out 0.8s forwards;
     }
 
     .about-content {
@@ -1269,9 +1421,24 @@ section {
     .timeline-dot {
         left: -36px;
     }
+
+    .contact-content {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .contact-form-card {
+        padding: 30px;
+    }
 }
 
 @media (max-width: 600px) {
+    .background-text {
+        font-size: 60px;
+        letter-spacing: 8px;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
+    }
+    
     .hero-title {
         font-size: 40px;
     }
@@ -1282,6 +1449,7 @@ section {
 
     .name-container {
         height: 80px;
+        margin-bottom: 40px;
     }
 
     #brainCanvas {
@@ -1298,12 +1466,13 @@ section {
 
     .hero-subtitle {
         font-size: 18px;
+        margin-top: 80px;
     }
 
     .hero-cta {
         flex-direction: column;
         align-items: center;
-        margin-top: 60px;
+        margin-top: 100px;
     }
 
     .btn {
@@ -1318,9 +1487,18 @@ section {
         align-items: flex-start;
     }
 
+    .about-role-title {
+        font-size: 24px;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+        margin-bottom: 15px;
+    }
+    
+    .about-visual.is-visible .about-role-title {
+        animation: fadeInDown 0.8s ease-out 0.8s forwards;
+    }
+
     .skills-container,
-    .education-grid,
-    .contact-info {
+    .education-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1334,6 +1512,23 @@ section {
 
     .interest-item {
         justify-content: center;
+    }
+
+    .contact-text h3 {
+        font-size: 24px;
+    }
+
+    .contact-text p {
+        font-size: 14px;
+    }
+
+    .contact-form-card {
+        padding: 20px;
+    }
+
+    .btn-send {
+        padding: 12px 30px;
+        font-size: 14px;
     }
 }
 
@@ -1353,6 +1548,28 @@ section {
 
 .fade-in-up {
     animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Smooth scrollbar */
