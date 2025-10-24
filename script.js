@@ -1055,6 +1055,29 @@ function initScrollAnimations() {
     document.querySelectorAll('.timeline-item, .project-card, .skill-category, .education-card, .contact-item').forEach(el => {
         observer.observe(el);
     });
+
+    // Separate observer for profile image and title
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    // Observe profile image container and about visual
+    const profileImageContainer = document.querySelector('.profile-image-container');
+    const aboutVisual = document.querySelector('.about-visual');
+    
+    if (profileImageContainer) {
+        imageObserver.observe(profileImageContainer);
+    }
+    
+    if (aboutVisual) {
+        imageObserver.observe(aboutVisual);
+    }
 }
 
 // =====================
@@ -1220,6 +1243,7 @@ window.addEventListener('DOMContentLoaded', () => {
         initCustomCursor();
         loadSavedSkills(); // Load previously saved skills
         initAddSkillButtons(); // Initialize add skill functionality
+        initContactForm(); // Initialize contact form
     }, 100);
     
     // Add loading animation
@@ -1242,6 +1266,36 @@ window.addEventListener('scroll', () => {
         ticking = true;
     }
 });
+
+// =====================
+// Contact Form Handler
+// =====================
+function initContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:tsnvprabhas2003@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            
+            // Open mail client
+            window.location.href = mailtoLink;
+            
+            // Optional: Show success message
+            alert('Opening your email client...');
+            
+            // Reset form
+            contactForm.reset();
+        });
+    }
+}
 
 // =====================
 // Easter Egg - Console Message
